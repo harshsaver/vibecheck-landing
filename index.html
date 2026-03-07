@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeCheck — How AI-Native Are You?</title>
+    <meta name="description" content="Track your AI coding habits. Compete with friends. The leaderboard for AI-native developers.">
+    <meta property="og:title" content="VibeCheck — How AI-Native Are You?">
+    <meta property="og:description" content="Track your AI coding habits. Compete with friends. The leaderboard for AI-native developers.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #5CB832;
+            --surface: #FFFFFF;
+            --text: #1A1A1A;
+            --primary: #5CB832;
+            --secondary: #2D2D2D;
+            --accent: #4AA825;
+            --muted: #E8E8E8;
+            --border: #D0D0D0;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            overflow-x: hidden;
+        }
+
+        /* Diamond pattern overlay */
+        .diamond-bg { position: relative; }
+        .diamond-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-conic-gradient(rgba(255,255,255,0.08) 0% 25%, transparent 0% 50%);
+            background-size: 24px 24px;
+            transform: rotate(45deg) scale(1.5);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .diamond-bg > * { position: relative; z-index: 1; }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 3px solid var(--primary);
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+        }
+        .nav-logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-cta {
+            background: var(--primary) !important;
+            color: #fff !important;
+            padding: 8px 20px;
+            font-size: 13px !important;
+            letter-spacing: 0.15em !important;
+            transition: background 0.2s, transform 0.2s !important;
+        }
+        .nav-cta:hover { background: var(--accent) !important; transform: scale(1.02); }
+
+        /* ============================================================
+           HERO — split layout: left text, right leaderboard
+           ============================================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--secondary);
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('assets/bg2.png') center center / cover no-repeat;
+            opacity: 0.25;
+        }
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(26,26,26,0.92) 0%, rgba(45,45,45,0.8) 50%, rgba(26,26,26,0.92) 100%);
+        }
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 120px 24px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+            width: 100%;
+        }
+        .hero-left { animation: slideUp 0.7s ease-out; }
+        .hero-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 5px 16px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .hero-badge::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-conic-gradient(rgba(255,255,255,0.1) 0% 25%, transparent 0% 50%);
+            background-size: 12px 12px;
+            transform: rotate(45deg) scale(1.5);
+        }
+        .hero h1 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: clamp(40px, 5vw, 64px);
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+        .hero h1 .green { color: var(--primary); }
+        .hero-sub {
+            font-size: 17px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.6;
+            margin-bottom: 32px;
+            max-width: 440px;
+        }
+        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 14px 32px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-conic-gradient(rgba(255,255,255,0.08) 0% 25%, transparent 0% 50%);
+            background-size: 16px 16px;
+            transform: rotate(45deg) scale(1.5);
+        }
+        .btn-primary:hover { background: var(--accent); transform: scale(1.02); }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 14px 32px;
+            border: 2px solid rgba(255,255,255,0.25);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+        .hero-supported {
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .hero-supported-label {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            font-size: 10px;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+        .hero-supported-tools { display: flex; gap: 8px; }
+        .hero-tool-tag {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 11px;
+            color: rgba(255,255,255,0.55);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        /* HERO RIGHT — Leaderboard demo */
+        .hero-right { animation: slideUp 0.7s ease-out 0.15s both; }
+        .hero-lb {
+            background: rgba(255,255,255,0.06);
+            border: 2px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+        .hero-lb-title-bar {
+            background: rgba(0,0,0,0.3);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .hero-lb-title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        .hero-lb-live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        .hero-lb-live-dot {
+            width: 6px; height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .hero-lb-header {
+            display: grid;
+            grid-template-columns: 40px 1fr 80px;
+            padding: 10px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .hero-lb-header span {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 10px;
+            color: rgba(255,255,255,0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        .hero-lb-row {
+            display: grid;
+            grid-template-columns: 40px 1fr 80px;
+            padding: 12px 20px;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.2s, transform 0.2s, opacity 0.4s ease-out;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        .hero-lb-row.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .hero-lb-row:hover {
+            background: rgba(255,255,255,0.04);
+            transform: translateX(4px);
+        }
+        .hero-lb-row.is-you {
+            background: rgba(92, 184, 50, 0.1);
+            border-left: 3px solid var(--primary);
+        }
+        .hero-lb-rank {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: rgba(255,255,255,0.5);
+        }
+        .hero-lb-rank.gold { color: #D4A017; }
+        .hero-lb-rank.silver { color: #9CA3AF; }
+        .hero-lb-rank.bronze { color: #CD7F32; }
+        .hero-lb-info { display: flex; flex-direction: column; gap: 2px; }
+        .hero-lb-name {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .hero-lb-meta { font-size: 11px; color: rgba(255,255,255,0.3); }
+        .hero-lb-score {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--primary);
+            text-align: right;
+        }
+        .hero-lb-row.is-you .hero-lb-name { color: var(--primary); }
+        .hero-lb-row.is-you .hero-lb-score { color: #fff; }
+        .hero-lb-cta {
+            padding: 16px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .hero-lb-cta-text {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 12px;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        .hero-lb-cta-text span { color: var(--primary); }
+
+        /* ============================================================
+           SHARED SECTION STYLES
+           ============================================================ */
+        section { padding: 80px 24px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .section-label {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 12px;
+        }
+        .section-label.dark { color: var(--secondary); }
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: clamp(32px, 5vw, 48px);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        .section-sub {
+            font-size: 16px;
+            color: rgba(26,26,26,0.6);
+            line-height: 1.6;
+            max-width: 560px;
+        }
+        .section-sub.light { color: rgba(255,255,255,0.6); }
+
+        /* HOW IT WORKS */
+        .how-it-works { background: var(--surface); }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            margin-top: 48px;
+        }
+        .step {
+            padding: 40px 32px;
+            border-right: 2px solid var(--muted);
+        }
+        .step:last-child { border-right: none; }
+        .step-number {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 64px;
+            color: var(--muted);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+        .step-title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+        .step-desc { font-size: 15px; color: rgba(26,26,26,0.6); line-height: 1.6; }
+
+        /* FEATURES */
+        .features-section { background: var(--secondary); }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3px;
+            margin-top: 48px;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            padding: 40px 32px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .feature-card:hover { background: rgba(255,255,255,0.08); transform: translateX(4px); }
+        .feature-icon {
+            width: 48px; height: 48px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            clip-path: polygon(50% 0%, 100% 10%, 100% 65%, 50% 100%, 0% 65%, 0% 10%);
+        }
+        .feature-icon svg { width: 22px; height: 22px; color: #fff; }
+        .feature-title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+        }
+        .feature-desc { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+        /* SCORING */
+        .scoring-section { background: var(--primary); }
+        .scoring-table {
+            margin-top: 48px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .scoring-row {
+            background: var(--surface);
+            display: grid;
+            grid-template-columns: 1fr 100px 2fr;
+            align-items: center;
+            padding: 16px 24px;
+            transition: transform 0.2s, background 0.15s;
+        }
+        .scoring-row:hover { transform: translateX(4px); background: #F5F5F5; }
+        .scoring-row-header { background: var(--secondary); color: #fff; }
+        .scoring-row-header:hover { background: var(--secondary); transform: none; }
+        .scoring-component {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .scoring-points {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary);
+            text-align: center;
+        }
+        .scoring-desc { font-size: 14px; color: rgba(26,26,26,0.6); }
+        .scoring-row-header .scoring-component,
+        .scoring-row-header .scoring-desc {
+            color: rgba(255,255,255,0.7);
+            font-size: 11px;
+            letter-spacing: 0.15em;
+        }
+        .scoring-row-header .scoring-points { color: var(--primary); }
+
+        /* TOOLS */
+        .tools-section { background: var(--primary); }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+            margin-top: 48px;
+        }
+        .tool-card {
+            background: var(--surface);
+            padding: 40px 28px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .tool-card:hover { transform: translateY(-4px); }
+        .tool-icon {
+            width: 56px; height: 56px;
+            margin: 0 auto 20px;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(50% 0%, 100% 10%, 100% 65%, 50% 100%, 0% 65%, 0% 10%);
+        }
+        .tool-icon svg { width: 26px; height: 26px; color: #fff; }
+        .tool-name {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+        .tool-desc { font-size: 13px; color: rgba(26,26,26,0.5); line-height: 1.5; }
+        .tool-badge {
+            display: inline-block;
+            margin-top: 12px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 4px 12px;
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* PRIVACY */
+        .privacy-section { background: var(--secondary); }
+        .privacy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+            margin-top: 48px;
+        }
+        .privacy-card { background: rgba(255,255,255,0.04); padding: 32px 24px; }
+        .privacy-icon {
+            width: 40px; height: 40px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(50% 0%, 100% 10%, 100% 65%, 50% 100%, 0% 65%, 0% 10%);
+            margin-bottom: 16px;
+        }
+        .privacy-icon svg { width: 18px; height: 18px; color: #fff; }
+        .privacy-title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+        .privacy-desc { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+        /* FOOTER */
+        footer {
+            background: var(--secondary);
+            padding: 40px 24px;
+            border-top: 3px solid var(--primary);
+        }
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-logo {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .footer-logo span { color: var(--primary); }
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-note { font-size: 12px; color: rgba(255,255,255,0.25); }
+
+        /* ANIMATIONS */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero { min-height: auto; }
+            .hero-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 100px 24px 60px;
+            }
+            .hero-left { text-align: center; }
+            .hero-sub { margin-left: auto; margin-right: auto; }
+            .hero-actions { justify-content: center; }
+            .hero-supported { justify-content: center; flex-wrap: wrap; }
+        }
+        @media (max-width: 768px) {
+            .nav-links a:not(.nav-cta) { display: none; }
+            .steps { grid-template-columns: 1fr; }
+            .step { border-right: none; border-bottom: 2px solid var(--muted); }
+            .step:last-child { border-bottom: none; }
+            .features-grid { grid-template-columns: 1fr; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .privacy-grid { grid-template-columns: 1fr; }
+            .scoring-row { grid-template-columns: 1fr 80px; }
+            .scoring-desc { display: none; }
+            .scoring-row-header .scoring-desc { display: none; }
+            .hero-supported-tools { flex-wrap: wrap; justify-content: center; }
+            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-links { justify-content: center; }
+            section { padding: 60px 16px; }
+        }
+        @media (max-width: 480px) {
+            .hero-inner { padding: 88px 16px 48px; gap: 32px; }
+            .hero h1 { font-size: 32px; }
+            .hero-sub { font-size: 15px; }
+            .hero-actions { flex-direction: column; align-items: center; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; padding: 14px 20px; }
+            .hero-lb-header, .hero-lb-row { grid-template-columns: 30px 1fr 60px; padding: 10px 14px; }
+            .hero-lb-name { font-size: 13px; }
+            .hero-lb-meta { font-size: 10px; }
+            .hero-lb-score { font-size: 16px; }
+            .hero-lb-rank { font-size: 14px; }
+            .hero-lb-title-bar { padding: 10px 14px; }
+            .hero-lb-cta-text { font-size: 10px; }
+            .hero-tool-tag { font-size: 10px; padding: 3px 8px; }
+            .step { padding: 28px 20px; }
+            .step-number { font-size: 48px; }
+            .step-title { font-size: 18px; }
+            .feature-card { padding: 28px 20px; }
+            .scoring-row { padding: 12px 16px; }
+            .scoring-component { font-size: 14px; }
+            .scoring-points { font-size: 16px; }
+            .tool-card { padding: 28px 20px; }
+            .privacy-card { padding: 24px 16px; }
+            .section-title { font-size: 28px; }
+            .nav-inner { padding: 0 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">Vibe<span>Check</span></a>
+        <div class="nav-links">
+            <a href="#how-it-works">How It Works</a>
+            <a href="#features">Features</a>
+            <a href="#scoring">Scoring</a>
+            <a href="#" class="nav-cta">Download</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-gradient"></div>
+    <div class="hero-inner">
+        <!-- LEFT — headline + CTA -->
+        <div class="hero-left">
+            <div class="hero-badge">macOS Menu Bar App</div>
+            <h1>The Leaderboard that measures your <span class="green">AI-Nativeness</span></h1>
+            <p class="hero-sub">
+                Screen Time, but for AI coding tools. VibeCheck tracks your usage of Claude Code, Cursor & more — and ranks you globally.
+            </p>
+            <div class="hero-actions">
+                <a href="#download" class="btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download for macOS
+                </a>
+                <a href="#how-it-works" class="btn-secondary">How It Works</a>
+            </div>
+            <div class="hero-supported">
+                <span class="hero-supported-label">Tracks:</span>
+                <div class="hero-supported-tools">
+                    <span class="hero-tool-tag">Claude Code</span>
+                    <span class="hero-tool-tag">Cursor</span>
+                    <span class="hero-tool-tag">Claude Desktop</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT — live leaderboard demo -->
+        <div class="hero-right">
+            <div class="hero-lb">
+                <div class="hero-lb-title-bar">
+                    <span class="hero-lb-title">Global Leaderboard</span>
+                    <span class="hero-lb-live"><span class="hero-lb-live-dot"></span> Live</span>
+                </div>
+                <div class="hero-lb-header">
+                    <span>#</span>
+                    <span>Developer</span>
+                    <span style="text-align:right">Score</span>
+                </div>
+                <div class="hero-lb-row" data-delay="0">
+                    <div class="hero-lb-rank gold">1</div>
+                    <div class="hero-lb-info">
+                        <div class="hero-lb-name">vibe_lord_99</div>
+                        <div class="hero-lb-meta">42-day streak &middot; Claude Code, Cursor</div>
+                    </div>
+                    <div class="hero-lb-score" data-target="987">0</div>
+                </div>
+                <div class="hero-lb-row" data-delay="80">
+                    <div class="hero-lb-rank silver">2</div>
+                    <div class="hero-lb-info">
+                        <div class="hero-lb-name">cursor_queen</div>
+                        <div class="hero-lb-meta">38-day streak &middot; Cursor</div>
+                    </div>
+                    <div class="hero-lb-score" data-target="945">0</div>
+                </div>
+                <div class="hero-lb-row" data-delay="160">
+                    <div class="hero-lb-rank bronze">3</div>
+                    <div class="hero-lb-info">
+                        <div class="hero-lb-name">claude_maxi</div>
+                        <div class="hero-lb-meta">31-day streak &middot; Claude Code</div>
+                    </div>
+                    <div class="hero-lb-score" data-target="912">0</div>
+                </div>
+                <div class="hero-lb-row" data-delay="240">
+                    <div class="hero-lb-rank">4</div>
+                    <div class="hero-lb-info">
+                        <div class="hero-lb-name">token_burner</div>
+                        <div class="hero-lb-meta">27-day streak &middot; Claude Code, Cursor</div>
+                    </div>
+                    <div class="hero-lb-score" data-target="878">0</div>
+                </div>
+                <div class="hero-lb-row" data-delay="320">
+                    <div class="hero-lb-rank">5</div>
+                    <div class="hero-lb-info">
+                        <div class="hero-lb-name">ai_shipper</div>
+                        <div class="hero-lb-meta">19-day streak &middot; Claude Desktop</div>
+                    </div>
+                    <div class="hero-lb-score" data-target="841">0</div>
+                </div>
+                <div class="hero-lb-row is-you" data-delay="450">
+                    <div class="hero-lb-rank">?</div>
+                    <div class="hero-lb-info">
+                        <div class="hero-lb-name">your_name_here</div>
+                        <div class="hero-lb-meta">Download to find out</div>
+                    </div>
+                    <div class="hero-lb-score">???</div>
+                </div>
+                <div class="hero-lb-cta">
+                    <div class="hero-lb-cta-text"><span>Score 0-1000</span> &middot; Updates every 5 min &middot; Last 30 days</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how-it-works">
+    <div class="container">
+        <div class="section-label dark">Getting Started</div>
+        <div class="section-title" style="color: var(--text);">Three Steps to the Top</div>
+        <div class="section-sub">Install, pick a username, start climbing. It takes under a minute.</div>
+        <div class="steps">
+            <div class="step animate-on-scroll">
+                <div class="step-number">01</div>
+                <div class="step-title">Install & Launch</div>
+                <div class="step-desc">Download the DMG, drag to Applications. VibeCheck appears in your menu bar — no dock icon, no clutter.</div>
+            </div>
+            <div class="step animate-on-scroll">
+                <div class="step-number">02</div>
+                <div class="step-title">Auto-Track</div>
+                <div class="step-desc">VibeCheck detects your AI tools and starts tracking tokens, sessions, and streaks automatically.</div>
+            </div>
+            <div class="step animate-on-scroll">
+                <div class="step-number">03</div>
+                <div class="step-title">Compete</div>
+                <div class="step-desc">Your AI Nativeness Score updates every 5 minutes. See where you rank on the global leaderboard.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+    <div class="container">
+        <div class="section-label">What You Get</div>
+        <div class="section-title" style="color: #fff;">Built for AI-Native Developers</div>
+        <div class="features-grid">
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                </div>
+                <div class="feature-title">Global Leaderboard</div>
+                <div class="feature-desc">See where you rank against developers worldwide. Scores, streaks, and tool badges — all visible.</div>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <div class="feature-title">Real-Time Stats</div>
+                <div class="feature-desc">Total tokens, session count, active hours, current streak, per-tool breakdown, and power badges.</div>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+                <div class="feature-title">Menu Bar Native</div>
+                <div class="feature-desc">Lives in your macOS menu bar. No dock icon, auto-launches at login, always one click away.</div>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div class="feature-title">Privacy-First</div>
+                <div class="feature-desc">All data computed locally. Only your score and username sync. No code or prompts ever leave your machine.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SCORING -->
+<section class="scoring-section diamond-bg" id="scoring">
+    <div class="container">
+        <div class="section-label" style="color: #fff;">AI Nativeness Score</div>
+        <div class="section-title" style="color: #fff;">7 Components. 1000 Points.</div>
+        <p class="section-sub" style="color: rgba(255,255,255,0.7);">Your score is computed from the last 30 days of AI coding activity across all supported tools.</p>
+        <div class="scoring-table">
+            <div class="scoring-row scoring-row-header">
+                <div class="scoring-component">Component</div>
+                <div class="scoring-points" style="color: rgba(255,255,255,0.5);">Points</div>
+                <div class="scoring-desc">What It Measures</div>
+            </div>
+            <div class="scoring-row animate-on-scroll">
+                <div class="scoring-component">Tokens</div>
+                <div class="scoring-points">250</div>
+                <div class="scoring-desc">Total tokens consumed (input + output)</div>
+            </div>
+            <div class="scoring-row animate-on-scroll">
+                <div class="scoring-component">Streak</div>
+                <div class="scoring-points">200</div>
+                <div class="scoring-desc">Consecutive days of AI usage</div>
+            </div>
+            <div class="scoring-row animate-on-scroll">
+                <div class="scoring-component">Sessions</div>
+                <div class="scoring-points">150</div>
+                <div class="scoring-desc">Number of coding sessions</div>
+            </div>
+            <div class="scoring-row animate-on-scroll">
+                <div class="scoring-component">Hours</div>
+                <div class="scoring-points">100</div>
+                <div class="scoring-desc">Active hours spent with AI tools</div>
+            </div>
+            <div class="scoring-row animate-on-scroll">
+                <div class="scoring-component">Diversity</div>
+                <div class="scoring-points">100</div>
+                <div class="scoring-desc">Number of different AI tools used</div>
+            </div>
+            <div class="scoring-row animate-on-scroll">
+                <div class="scoring-component">Power Usage</div>
+                <div class="scoring-points">100</div>
+                <div class="scoring-desc">Advanced features: MCP tools, skills, agents</div>
+            </div>
+            <div class="scoring-row animate-on-scroll">
+                <div class="scoring-component">Recency</div>
+                <div class="scoring-points">100</div>
+                <div class="scoring-desc">How recently you've been active</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUPPORTED TOOLS -->
+<section class="tools-section diamond-bg" id="tools">
+    <div class="container">
+        <div class="section-label" style="color: #fff;">Integrations</div>
+        <div class="section-title" style="color: #fff;">Supported AI Tools</div>
+        <div class="tools-grid">
+            <div class="tool-card animate-on-scroll">
+                <div class="tool-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                </div>
+                <div class="tool-name">Claude Code</div>
+                <div class="tool-desc">Full token-level tracking via JSONL logs. Sessions, tools, and agent data.</div>
+                <div class="tool-badge">Full Support</div>
+            </div>
+            <div class="tool-card animate-on-scroll">
+                <div class="tool-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <div class="tool-name">Cursor</div>
+                <div class="tool-desc">Session detection via process monitoring. Tracks active coding time.</div>
+                <div class="tool-badge">Full Support</div>
+            </div>
+            <div class="tool-card animate-on-scroll">
+                <div class="tool-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div class="tool-name">Claude Desktop</div>
+                <div class="tool-desc">Process monitoring plus log parsing for session and usage data.</div>
+                <div class="tool-badge">Full Support</div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 32px;">
+            <p style="font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 14px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.15em;">
+                Windsurf, GitHub Copilot & more coming soon
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="privacy-section">
+    <div class="container">
+        <div class="section-label">Privacy & Security</div>
+        <div class="section-title" style="color: #fff;">Your Data Stays Yours</div>
+        <p class="section-sub light">We never see your code, prompts, or conversations. Ever.</p>
+        <div class="privacy-grid">
+            <div class="privacy-card animate-on-scroll">
+                <div class="privacy-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                </div>
+                <div class="privacy-title">Local Computation</div>
+                <div class="privacy-desc">All usage data is processed entirely on your machine. Raw data never leaves your computer.</div>
+            </div>
+            <div class="privacy-card animate-on-scroll">
+                <div class="privacy-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="privacy-title">Minimal Sync</div>
+                <div class="privacy-desc">Only your username and numeric score are synced to the leaderboard. Nothing else.</div>
+            </div>
+            <div class="privacy-card animate-on-scroll">
+                <div class="privacy-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <div class="privacy-title">Zero Code Access</div>
+                <div class="privacy-desc">No code, prompts, or conversation content is ever collected or transmitted.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-logo">Vibe<span>Check</span></div>
+        <div class="footer-links">
+            <a href="#">GitHub</a>
+            <a href="#">Privacy</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="footer-note">Designed by October.dev</div>
+    </div>
+</footer>
+
+<script>
+// Scroll-triggered animations
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+// Hero leaderboard: staggered row entrance + score count-up
+function animateHeroLeaderboard() {
+    const rows = document.querySelectorAll('.hero-lb-row');
+    rows.forEach(row => {
+        const delay = parseInt(row.dataset.delay || 0);
+        setTimeout(() => {
+            row.classList.add('visible');
+            const scoreEl = row.querySelector('.hero-lb-score[data-target]');
+            if (scoreEl) {
+                const target = parseInt(scoreEl.dataset.target);
+                let current = 0;
+                const step = Math.ceil(target / 30);
+                const interval = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(interval);
+                    }
+                    scoreEl.textContent = current;
+                }, 20);
+            }
+        }, 400 + delay);
+    });
+}
+animateHeroLeaderboard();
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+});
+</script>
+
+</body>
+</html>

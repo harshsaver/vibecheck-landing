@@ -442,6 +442,14 @@ if (os === 'mac') {
     otherText.textContent = 'Also available for Windows';
     sysReqText.textContent = 'Available for macOS 12+ and Windows 10+.';
 }
+
+// Auto-start download after a short delay if OS was detected
+if (os === 'mac' || os === 'windows') {
+    const url = os === 'mac' ? MAC_URL : WIN_URL;
+    setTimeout(() => {
+        window.location.href = url;
+    }, 800);
+}
 </script>
 
 </body>

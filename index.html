@@ -123,9 +123,9 @@
         .hero-inner {
             position: relative;
             z-index: 2;
-            max-width: 680px;
+            max-width: 960px;
             margin: 0 auto;
-            padding: 100px 24px 80px;
+            padding: 80px 24px 48px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -135,7 +135,7 @@
             animation: slideUp 0.7s ease-out 0.3s both;
             text-align: center;
             order: 2;
-            margin-top: 48px;
+            margin-top: 32px;
         }
         .hero-badge {
             display: inline-block;
@@ -147,7 +147,7 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             padding: 5px 16px;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             position: relative;
         }
         .hero-badge::before {
@@ -173,8 +173,8 @@
             font-size: 17px;
             color: rgba(255,255,255,0.6);
             line-height: 1.6;
-            margin-bottom: 32px;
-            max-width: 500px;
+            margin-bottom: 28px;
+            max-width: 640px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -262,13 +262,13 @@
             width: 100%;
         }
         .hero-lb {
-            background: rgba(255,255,255,0.06);
-            border: 2px solid rgba(255,255,255,0.1);
+            background: transparent;
+            border: none;
             overflow: hidden;
         }
         .hero-lb-title-bar {
-            background: rgba(0,0,0,0.3);
-            padding: 14px 20px;
+            background: transparent;
+            padding: 10px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -306,7 +306,7 @@
             display: grid;
             grid-template-columns: 40px 1fr 90px;
             padding: 10px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: none;
         }
         .hero-lb-header span {
             font-family: 'Oswald', sans-serif;
@@ -319,9 +319,11 @@
         .hero-lb-row {
             display: grid;
             grid-template-columns: 40px 1fr 90px;
-            padding: 12px 20px;
+            padding: 12px 24px;
             align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-radius: 4px;
+            margin-bottom: 2px;
             transition: background 0.2s, transform 0.2s, opacity 0.4s ease-out;
             opacity: 0;
             transform: translateX(-20px);
@@ -367,9 +369,9 @@
         .hero-lb-row.is-you .hero-lb-name { color: var(--primary); }
         .hero-lb-row.is-you .hero-lb-score { color: #fff; }
         .hero-lb-cta {
-            padding: 16px 20px;
+            padding: 12px 20px;
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.08);
+            border-top: none;
         }
         .hero-lb-cta-text {
             font-family: 'Oswald', sans-serif;

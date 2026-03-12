@@ -545,70 +545,58 @@
         .section-sub.light { color: rgba(255,255,255,0.6); }
 
         /* HOW IT WORKS */
-        .how-it-works { background: var(--surface); }
+        .how-it-works { background: var(--secondary); }
         .steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            flex-direction: column;
             gap: 0;
             margin-top: 48px;
-            position: relative;
-        }
-        /* Connecting arrow line between steps */
-        .steps::before {
-            content: '';
-            position: absolute;
-            top: 72px;
-            left: calc(33.33% - 40px);
-            right: calc(33.33% - 40px);
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            z-index: 1;
+            max-width: 640px;
         }
         .step {
-            padding: 32px 28px 36px;
-            text-align: center;
-            position: relative;
-        }
-        .step-icon-wrap {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 24px;
-            background: var(--primary);
             display: flex;
-            align-items: center;
-            justify-content: center;
-            clip-path: polygon(50% 0%, 100% 10%, 100% 65%, 50% 100%, 0% 65%, 0% 10%);
-            position: relative;
-            z-index: 2;
-            transition: transform 0.3s;
+            align-items: flex-start;
+            gap: 24px;
+            padding: 28px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .step:hover .step-icon-wrap { transform: scale(1.1); }
-        .step-icon-wrap svg { width: 32px; height: 32px; color: #fff; }
-        .step-number {
-            font-family: 'Oswald', sans-serif;
-            font-weight: 700;
-            font-size: 11px;
+        .step:last-child { border-bottom: none; }
+        .step-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 12px;
             color: var(--primary);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
+            flex-shrink: 0;
+            width: 28px;
+            padding-top: 2px;
         }
+        .step-body { flex: 1; }
         .step-title {
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
-            font-size: 22px;
+            font-size: 18px;
+            color: #fff;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 12px;
+            letter-spacing: 0.06em;
+            margin-bottom: 8px;
         }
-        .step-desc { font-size: 15px; color: rgba(26,26,26,0.6); line-height: 1.6; }
-        .step-arrow {
-            position: absolute;
-            right: -14px;
-            top: 60px;
-            z-index: 3;
-            color: var(--primary);
+        .step-desc {
+            font-size: 14px;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.6;
         }
+        .step-cmd {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.04);
+            padding: 4px 10px;
+            border-radius: 3px;
+            border: 1px solid rgba(255,255,255,0.06);
+            margin-top: 10px;
+        }
+        .step-cmd .prompt { color: var(--primary); }
 
         /* FEATURES */
         .features-section { background: var(--secondary); }
@@ -768,7 +756,7 @@
         footer {
             background: var(--secondary);
             padding: 40px 24px;
-            border-top: 3px solid var(--primary);
+            border-top: 1px solid rgba(255,255,255,0.06);
         }
         .footer-inner {
             max-width: 1100px;
@@ -823,9 +811,7 @@
         }
         @media (max-width: 768px) {
             .nav-links a:not(.nav-cta) { display: none; }
-            .steps { grid-template-columns: 1fr; }
-            .steps::before { display: none; }
-            .step-arrow { display: none; }
+            .steps { max-width: 100%; }
             .features-grid { grid-template-columns: 1fr; }
             .tools-grid { grid-template-columns: 1fr; }
             .privacy-grid { grid-template-columns: 1fr; }
@@ -854,10 +840,9 @@
             .hero-lb-cta-text { font-size: 9px; }
             .hero-tool-tag { font-size: 10px; padding: 3px 8px; }
             .hero-terminal code { font-size: 10px; padding: 5px 10px; }
-            .step { padding: 24px 16px; }
-            .step-title { font-size: 18px; }
-            .step-icon-wrap { width: 64px; height: 64px; }
-            .step-icon-wrap svg { width: 26px; height: 26px; }
+            .step { gap: 16px; padding: 20px 0; }
+            .step-title { font-size: 16px; }
+            .step-cmd { font-size: 11px; }
             .feature-card { padding: 28px 20px; }
             .scoring-row { padding: 12px 16px; }
             .scoring-component { font-size: 14px; }
@@ -994,35 +979,33 @@
 <!-- HOW IT WORKS -->
 <section class="how-it-works" id="how-it-works">
     <div class="container">
-        <div class="section-label dark">Getting Started</div>
-        <div class="section-title" style="color: var(--text);">Three Steps to the Top</div>
-        <div class="section-sub">Install, pick a username, start climbing. It takes under a minute.</div>
+        <div class="section-label">Getting Started</div>
+        <div class="section-title" style="color: #fff;">Setup in under a minute</div>
+        <div class="section-sub light">Three steps. No config files, no API keys.</div>
         <div class="steps">
             <div class="step animate-on-scroll">
-                <div class="step-icon-wrap">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <div class="step-num">01</div>
+                <div class="step-body">
+                    <div class="step-title">Install</div>
+                    <div class="step-desc">Download for macOS or Windows. FlexTheGrind lives in your menu bar — zero clutter, launches at login.</div>
+                    <div class="step-cmd"><span class="prompt">$</span> brew install flexthegrind</div>
                 </div>
-                <div class="step-number">Step 01</div>
-                <div class="step-title">Install & Launch</div>
-                <div class="step-desc">Download for macOS or Windows. FlexTheGrind sits in your menu bar — zero clutter, instant access.</div>
-                <svg class="step-arrow" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
             <div class="step animate-on-scroll">
-                <div class="step-icon-wrap">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                <div class="step-num">02</div>
+                <div class="step-body">
+                    <div class="step-title">Auto-detect</div>
+                    <div class="step-desc">We find claude-code, cursor, and claude-desktop on your system and start tracking sessions, tokens, and streaks.</div>
+                    <div class="step-cmd"><span class="prompt">$</span> flexthegrind status<br>&nbsp;&nbsp;tracking: claude-code, cursor &middot; score: 847</div>
                 </div>
-                <div class="step-number">Step 02</div>
-                <div class="step-title">Auto-Track</div>
-                <div class="step-desc">We detect Claude Code, Cursor & more and start counting tokens, sessions, and streaks instantly.</div>
-                <svg class="step-arrow" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
             <div class="step animate-on-scroll">
-                <div class="step-icon-wrap">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                <div class="step-num">03</div>
+                <div class="step-body">
+                    <div class="step-title">Climb the board</div>
+                    <div class="step-desc">Your score syncs every 5 minutes. Climb from Bronze to Legend on the global leaderboard.</div>
+                    <div class="step-cmd"><span class="prompt">$</span> flexthegrind rank<br>&nbsp;&nbsp;#142 &middot; Gold &middot; 12d streak</div>
                 </div>
-                <div class="step-number">Step 03</div>
-                <div class="step-title">Compete & Climb</div>
-                <div class="step-desc">Your score updates every 5 minutes. Climb from Bronze to Legend on the global leaderboard.</div>
             </div>
         </div>
     </div>
@@ -1201,9 +1184,8 @@
     <div class="footer-inner">
         <div class="footer-logo">FlexThe<span>Grind</span></div>
         <div class="footer-links">
-            <a href="#">GitHub</a>
-            <a href="#">Privacy</a>
-            <a href="#">Contact</a>
+            <a href="https://github.com/harshsaver/vibecheck-landing" target="_blank" rel="noopener">GitHub</a>
+            <a href="privacy.html">Privacy</a>
         </div>
         <div class="footer-note">Designed by October.dev</div>
     </div>

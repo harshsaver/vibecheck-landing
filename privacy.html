@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — FlexTheGrind</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #5CB832;
+            --secondary: #2D2D2D;
+            --accent: #4AA825;
+        }
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #fff;
+            background: var(--secondary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 3px solid var(--primary);
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+        }
+        .nav-logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* CONTENT */
+        .policy-page {
+            flex: 1;
+            padding: 120px 24px 80px;
+        }
+        .policy-content {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .policy-content h1 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 8px;
+        }
+        .policy-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 48px;
+        }
+        .policy-content h2 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--primary);
+            margin-top: 40px;
+            margin-bottom: 16px;
+        }
+        .policy-content p {
+            font-size: 15px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .policy-content ul {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+        .policy-content li {
+            font-size: 15px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.8;
+            margin-bottom: 4px;
+        }
+        .policy-content code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.06);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .policy-content strong {
+            color: rgba(255,255,255,0.8);
+            font-weight: 500;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--secondary);
+            padding: 40px 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-logo {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .footer-logo span { color: var(--primary); }
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-note { font-size: 12px; color: rgba(255,255,255,0.25); }
+
+        @media (max-width: 768px) {
+            .nav-links a:not(:last-child) { display: none; }
+            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-links { justify-content: center; }
+            .policy-content h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-inner">
+        <a href="index.html" class="nav-logo">FlexThe<span>Grind</span></a>
+        <div class="nav-links">
+            <a href="index.html#how-it-works">How It Works</a>
+            <a href="index.html#features">Features</a>
+            <a href="index.html#scoring">Leagues</a>
+        </div>
+    </div>
+</nav>
+
+<main class="policy-page">
+    <div class="policy-content">
+        <h1>Privacy Policy</h1>
+        <div class="policy-date">Last updated: March 11, 2026</div>
+
+        <h2>Overview</h2>
+        <p>FlexTheGrind is a menu bar application that tracks your usage of AI coding tools and displays your stats on a global leaderboard. We are committed to respecting your privacy. This policy explains exactly what data we collect, what stays local, and what gets synced.</p>
+
+        <h2>What stays on your machine</h2>
+        <p><strong>Everything sensitive.</strong> The following data is computed and stored entirely on your local machine and never leaves it:</p>
+        <ul>
+            <li>Your source code, prompts, and conversations</li>
+            <li>Raw log files from AI tools (e.g., <code>~/.claude/</code> JSONL logs)</li>
+            <li>Session transcripts and chat history</li>
+            <li>File paths, project names, and directory structures</li>
+            <li>Process names and system information beyond what is needed for tool detection</li>
+        </ul>
+
+        <h2>What we sync</h2>
+        <p>Only the minimum data needed to power the leaderboard is transmitted to our servers:</p>
+        <ul>
+            <li><strong>Username</strong> — the display name you choose during setup</li>
+            <li><strong>Numeric score</strong> — a single number computed locally from your usage patterns</li>
+            <li><strong>Tool breakdown</strong> — which AI tools contributed to your score (e.g., "claude-code", "cursor")</li>
+            <li><strong>Streak count</strong> — number of consecutive active days</li>
+            <li><strong>League tier</strong> — your current league (Bronze through Legend)</li>
+        </ul>
+        <p>This data is synced every 5 minutes over HTTPS.</p>
+
+        <h2>How scores are computed</h2>
+        <p>Your score is calculated entirely on your machine by analyzing local log files and process activity. We count metrics like active session time, token usage, and consistency. The raw data used for this calculation never leaves your computer — only the final numeric score is synced.</p>
+
+        <h2>Data storage</h2>
+        <p>Leaderboard data (usernames, scores, streaks) is stored on our servers to power the global rankings. We do not sell, share, or use this data for any purpose other than displaying the leaderboard.</p>
+
+        <h2>Third-party services</h2>
+        <p>FlexTheGrind does not integrate with any third-party analytics, advertising, or tracking services. We do not use cookies on this website beyond what is strictly necessary for functionality.</p>
+
+        <h2>Data deletion</h2>
+        <p>You can delete your account and all associated leaderboard data at any time from within the app. Uninstalling the app removes all local data. To request server-side data deletion, contact us at the email below.</p>
+
+        <h2>Open source</h2>
+        <p>FlexTheGrind's source code is available on GitHub. You can audit exactly what data is collected and how scores are computed.</p>
+
+        <h2>Contact</h2>
+        <p>If you have questions about this privacy policy or your data, reach out at <strong>privacy@flexthegrind.dev</strong>.</p>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-logo">FlexThe<span>Grind</span></div>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="https://github.com/harshsaver/vibecheck-landing" target="_blank" rel="noopener">GitHub</a>
+            <a href="privacy.html">Privacy</a>
+        </div>
+        <div class="footer-note">Designed by October.dev</div>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -71,8 +71,23 @@
             align-items: center;
             justify-content: center;
             padding: 100px 24px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .download-bg {
+            position: absolute;
+            inset: 0;
+            background: url('assets/bg2.png') center center / cover no-repeat;
+            opacity: 0.25;
+        }
+        .download-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(26,26,26,0.92) 0%, rgba(45,45,45,0.8) 50%, rgba(26,26,26,0.92) 100%);
         }
         .download-content {
+            position: relative;
+            z-index: 1;
             max-width: 800px;
             width: 100%;
             display: flex;
@@ -320,6 +335,8 @@
 
 <!-- DOWNLOAD CONTENT -->
 <main class="download-page">
+    <div class="download-bg"></div>
+    <div class="download-gradient"></div>
     <div class="download-content">
         <div class="download-visual">
             <div class="badge-showcase">

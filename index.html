@@ -99,7 +99,7 @@
         .nav-cta:hover { background: var(--accent) !important; transform: scale(1.02); }
 
         /* ============================================================
-           HERO — split layout: left text, right leaderboard
+           HERO — centered layout: leaderboard top, text below
            ============================================================ */
         .hero {
             min-height: 100vh;
@@ -123,16 +123,20 @@
         .hero-inner {
             position: relative;
             z-index: 2;
-            max-width: 1100px;
+            max-width: 680px;
             margin: 0 auto;
-            padding: 120px 24px 80px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 64px;
+            padding: 100px 24px 80px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             width: 100%;
         }
-        .hero-left { animation: slideUp 0.7s ease-out; }
+        .hero-left {
+            animation: slideUp 0.7s ease-out 0.3s both;
+            text-align: center;
+            order: 2;
+            margin-top: 48px;
+        }
         .hero-badge {
             display: inline-block;
             background: var(--primary);
@@ -170,9 +174,11 @@
             color: rgba(255,255,255,0.6);
             line-height: 1.6;
             margin-bottom: 32px;
-            max-width: 440px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
         .btn-primary {
             display: inline-flex;
             align-items: center;
@@ -247,8 +253,14 @@
             border: 1px solid rgba(255,255,255,0.15);
         }
 
-        /* HERO RIGHT — Leaderboard demo */
-        .hero-right { animation: slideUp 0.7s ease-out 0.15s both; }
+        .hero-supported { justify-content: center; }
+
+        /* HERO — Leaderboard demo (centered) */
+        .hero-right {
+            animation: slideUp 0.7s ease-out;
+            order: 1;
+            width: 100%;
+        }
         .hero-lb {
             background: rgba(255,255,255,0.06);
             border: 2px solid rgba(255,255,255,0.1);
@@ -370,8 +382,8 @@
         .hero-lb-cta-text span { color: var(--primary); }
 
         /* League badge next to names */
-        .hero-lb-name-row { display: flex; align-items: center; gap: 8px; }
-        .hero-lb-badge { width: 22px; height: 22px; object-fit: contain; }
+        .hero-lb-name-row { display: flex; align-items: center; gap: 10px; }
+        .hero-lb-badge { width: 32px; height: 32px; object-fit: contain; }
 
         /* Leaderboard shuffle animation */
         .hero-lb-row {
@@ -501,19 +513,47 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 0;
             margin-top: 48px;
+            position: relative;
+        }
+        /* Connecting arrow line between steps */
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 72px;
+            left: calc(33.33% - 40px);
+            right: calc(33.33% - 40px);
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 1;
         }
         .step {
-            padding: 40px 32px;
-            border-right: 2px solid var(--muted);
+            padding: 32px 28px 36px;
+            text-align: center;
+            position: relative;
         }
-        .step:last-child { border-right: none; }
+        .step-icon-wrap {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(50% 0%, 100% 10%, 100% 65%, 50% 100%, 0% 65%, 0% 10%);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s;
+        }
+        .step:hover .step-icon-wrap { transform: scale(1.1); }
+        .step-icon-wrap svg { width: 32px; height: 32px; color: #fff; }
         .step-number {
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
-            font-size: 64px;
-            color: var(--muted);
-            line-height: 1;
-            margin-bottom: 16px;
+            font-size: 11px;
+            color: var(--primary);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
         }
         .step-title {
             font-family: 'Oswald', sans-serif;
@@ -524,6 +564,13 @@
             margin-bottom: 12px;
         }
         .step-desc { font-size: 15px; color: rgba(26,26,26,0.6); line-height: 1.6; }
+        .step-arrow {
+            position: absolute;
+            right: -14px;
+            top: 60px;
+            z-index: 3;
+            color: var(--primary);
+        }
 
         /* FEATURES */
         .features-section { background: var(--secondary); }
@@ -732,21 +779,15 @@
         /* RESPONSIVE */
         @media (max-width: 900px) {
             .hero { min-height: auto; }
-            .hero-inner {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                padding: 100px 24px 60px;
-            }
-            .hero-left { text-align: center; }
-            .hero-sub { margin-left: auto; margin-right: auto; }
-            .hero-actions { justify-content: center; }
-            .hero-supported { justify-content: center; flex-wrap: wrap; }
+            .hero-inner { padding: 100px 24px 60px; }
+            .hero-left { margin-top: 32px; }
+            .hero-supported { flex-wrap: wrap; }
         }
         @media (max-width: 768px) {
             .nav-links a:not(.nav-cta) { display: none; }
             .steps { grid-template-columns: 1fr; }
-            .step { border-right: none; border-bottom: 2px solid var(--muted); }
-            .step:last-child { border-bottom: none; }
+            .steps::before { display: none; }
+            .step-arrow { display: none; }
             .features-grid { grid-template-columns: 1fr; }
             .tools-grid { grid-template-columns: 1fr; }
             .privacy-grid { grid-template-columns: 1fr; }
@@ -765,7 +806,7 @@
             .hero-actions { flex-direction: column; align-items: center; }
             .btn-primary, .btn-secondary { width: 100%; justify-content: center; padding: 14px 20px; }
             .hero-lb-header, .hero-lb-row { grid-template-columns: 30px 1fr 70px; padding: 10px 14px; }
-            .hero-lb-badge { width: 18px; height: 18px; }
+            .hero-lb-badge { width: 24px; height: 24px; }
             .hero-lb-name { font-size: 13px; }
             .hero-lb-meta { font-size: 10px; }
             .hero-lb-score { font-size: 16px; }
@@ -773,9 +814,10 @@
             .hero-lb-title-bar { padding: 10px 14px; }
             .hero-lb-cta-text { font-size: 10px; }
             .hero-tool-tag { font-size: 10px; padding: 3px 8px; }
-            .step { padding: 28px 20px; }
-            .step-number { font-size: 48px; }
+            .step { padding: 24px 16px; }
             .step-title { font-size: 18px; }
+            .step-icon-wrap { width: 64px; height: 64px; }
+            .step-icon-wrap svg { width: 26px; height: 26px; }
             .feature-card { padding: 28px 20px; }
             .scoring-row { padding: 12px 16px; }
             .scoring-component { font-size: 14px; }
@@ -797,7 +839,7 @@
             <a href="#how-it-works">How It Works</a>
             <a href="#features">Features</a>
             <a href="#scoring">Leagues</a>
-            <a href="#download" class="nav-cta">Download</a>
+            <a href="download.html" class="nav-cta">Download</a>
         </div>
     </div>
 </nav>
@@ -815,13 +857,9 @@
                 Screen Time, but for AI coding tools. FlexTheGrind tracks your usage of Claude Code, Cursor & more — and ranks you globally.
             </p>
             <div class="hero-actions" id="download">
-                <a href="https://github.com/harshsaver/vibecheck-landing/releases/download/v0.1.0/VibeCheck_0.1.0_aarch64.dmg" class="btn-primary">
+                <a href="download.html" class="btn-primary" id="hero-download-btn">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Download for macOS
-                </a>
-                <a href="https://github.com/harshsaver/vibecheck-landing/releases/download/v0.1.0/FlexTheGrind_0.1.0_x64-setup.exe" class="btn-primary" style="background: var(--secondary);">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Download for Windows
+                    <span id="hero-download-text">Download</span>
                 </a>
                 <a href="#how-it-works" class="btn-secondary">How It Works</a>
             </div>
@@ -929,19 +967,30 @@
         <div class="section-sub">Install, pick a username, start climbing. It takes under a minute.</div>
         <div class="steps">
             <div class="step animate-on-scroll">
-                <div class="step-number">01</div>
+                <div class="step-icon-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </div>
+                <div class="step-number">Step 01</div>
                 <div class="step-title">Install & Launch</div>
-                <div class="step-desc">Download the installer for macOS or Windows. FlexTheGrind appears in your menu bar — no dock icon, no clutter.</div>
+                <div class="step-desc">Download for macOS or Windows. FlexTheGrind sits in your menu bar — zero clutter, instant access.</div>
+                <svg class="step-arrow" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
             <div class="step animate-on-scroll">
-                <div class="step-number">02</div>
+                <div class="step-icon-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <div class="step-number">Step 02</div>
                 <div class="step-title">Auto-Track</div>
-                <div class="step-desc">FlexTheGrind detects your AI tools and starts tracking tokens, sessions, and streaks automatically.</div>
+                <div class="step-desc">We detect Claude Code, Cursor & more and start counting tokens, sessions, and streaks instantly.</div>
+                <svg class="step-arrow" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
             <div class="step animate-on-scroll">
-                <div class="step-number">03</div>
-                <div class="step-title">Compete</div>
-                <div class="step-desc">Your AI Nativeness Score updates every 5 minutes. See where you rank on the global leaderboard.</div>
+                <div class="step-icon-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                </div>
+                <div class="step-number">Step 03</div>
+                <div class="step-title">Compete & Climb</div>
+                <div class="step-desc">Your score updates every 5 minutes. Climb from Bronze to Legend on the global leaderboard.</div>
             </div>
         </div>
     </div>
@@ -1221,6 +1270,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
     });
 });
+
+// OS-aware download button label
+(function() {
+    const ua = navigator.userAgent || navigator.platform || '';
+    const textEl = document.getElementById('hero-download-text');
+    if (!textEl) return;
+    if (/Mac|iPhone|iPad|iPod/i.test(ua)) {
+        textEl.textContent = 'Download for macOS';
+    } else if (/Win/i.test(ua)) {
+        textEl.textContent = 'Download for Windows';
+    } else {
+        textEl.textContent = 'Download';
+    }
+})();
 </script>
 
 </body>

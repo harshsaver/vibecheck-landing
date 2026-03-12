@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibeCheck — How AI-Native Are You?</title>
+    <title>FlexTheGrind — How AI-Native Are You?</title>
     <meta name="description" content="Track your AI coding habits. Compete with friends. The leaderboard for AI-native developers.">
-    <meta property="og:title" content="VibeCheck — How AI-Native Are You?">
+    <meta property="og:title" content="FlexTheGrind — How AI-Native Are You?">
     <meta property="og:description" content="Track your AI coding habits. Compete with friends. The leaderboard for AI-native developers.">
     <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -292,7 +292,7 @@
         }
         .hero-lb-header {
             display: grid;
-            grid-template-columns: 40px 1fr 80px;
+            grid-template-columns: 40px 1fr 90px;
             padding: 10px 20px;
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
@@ -306,7 +306,7 @@
         }
         .hero-lb-row {
             display: grid;
-            grid-template-columns: 40px 1fr 80px;
+            grid-template-columns: 40px 1fr 90px;
             padding: 12px 20px;
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -368,6 +368,99 @@
             letter-spacing: 0.15em;
         }
         .hero-lb-cta-text span { color: var(--primary); }
+
+        /* League badge next to names */
+        .hero-lb-name-row { display: flex; align-items: center; gap: 8px; }
+        .hero-lb-badge { width: 22px; height: 22px; object-fit: contain; }
+
+        /* Leaderboard shuffle animation */
+        .hero-lb-row {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s, opacity 0.4s ease-out;
+        }
+        .hero-lb-row.shuffle-up {
+            animation: shuffleUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hero-lb-row.shuffle-down {
+            animation: shuffleDown 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hero-lb-row.shuffle-glow {
+            background: rgba(92, 184, 50, 0.15) !important;
+        }
+        @keyframes shuffleUp {
+            0% { transform: translateY(100%); opacity: 0.5; }
+            50% { transform: translateY(-10%); opacity: 1; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes shuffleDown {
+            0% { transform: translateY(-100%); opacity: 0.5; }
+            50% { transform: translateY(10%); opacity: 1; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* LEAGUE TABLE */
+        .league-table {
+            margin-top: 48px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .league-row {
+            background: var(--surface);
+            display: grid;
+            grid-template-columns: 1fr 120px 80px;
+            align-items: center;
+            padding: 20px 24px;
+            transition: transform 0.2s, background 0.15s;
+        }
+        .league-row:hover { transform: translateX(4px); background: #F5F5F5; }
+        .league-row-header { background: var(--secondary); color: #fff; }
+        .league-row-header:hover { background: var(--secondary); transform: none; }
+        .league-name-cell { display: flex; align-items: center; gap: 16px; }
+        .league-badge-img { width: 40px; height: 40px; object-fit: contain; }
+        .league-name {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .league-score {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--primary);
+            text-align: center;
+        }
+        .league-badge-col {
+            display: flex;
+            justify-content: center;
+        }
+        .league-row-header .league-name,
+        .league-row-header .league-score {
+            color: rgba(255,255,255,0.7);
+            font-size: 11px;
+            letter-spacing: 0.15em;
+        }
+
+        /* Built with October */
+        .built-with-october {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        .built-with-october a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.35);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .built-with-october a:hover { color: rgba(255,255,255,0.6); }
+        .built-with-october img { height: 16px; width: 16px; }
+        .built-with-october .bwo-name { font-weight: 500; }
 
         /* ============================================================
            SHARED SECTION STYLES
@@ -657,9 +750,9 @@
             .features-grid { grid-template-columns: 1fr; }
             .tools-grid { grid-template-columns: 1fr; }
             .privacy-grid { grid-template-columns: 1fr; }
-            .scoring-row { grid-template-columns: 1fr 80px; }
-            .scoring-desc { display: none; }
-            .scoring-row-header .scoring-desc { display: none; }
+            .league-row { grid-template-columns: 1fr 100px 60px; padding: 16px 16px; }
+            .league-badge-img { width: 32px; height: 32px; }
+            .league-name { font-size: 15px; }
             .hero-supported-tools { flex-wrap: wrap; justify-content: center; }
             .footer-inner { flex-direction: column; text-align: center; }
             .footer-links { justify-content: center; }
@@ -671,7 +764,8 @@
             .hero-sub { font-size: 15px; }
             .hero-actions { flex-direction: column; align-items: center; }
             .btn-primary, .btn-secondary { width: 100%; justify-content: center; padding: 14px 20px; }
-            .hero-lb-header, .hero-lb-row { grid-template-columns: 30px 1fr 60px; padding: 10px 14px; }
+            .hero-lb-header, .hero-lb-row { grid-template-columns: 30px 1fr 70px; padding: 10px 14px; }
+            .hero-lb-badge { width: 18px; height: 18px; }
             .hero-lb-name { font-size: 13px; }
             .hero-lb-meta { font-size: 10px; }
             .hero-lb-score { font-size: 16px; }
@@ -698,12 +792,12 @@
 <!-- NAV -->
 <nav>
     <div class="nav-inner">
-        <a href="#" class="nav-logo">Vibe<span>Check</span></a>
+        <a href="#" class="nav-logo">FlexThe<span>Grind</span></a>
         <div class="nav-links">
             <a href="#how-it-works">How It Works</a>
             <a href="#features">Features</a>
-            <a href="#scoring">Scoring</a>
-            <a href="https://github.com/harshsaver/vibecheck-landing/releases/download/v0.1.0/VibeCheck_0.1.0_aarch64.dmg" class="nav-cta">Download</a>
+            <a href="#scoring">Leagues</a>
+            <a href="#download" class="nav-cta">Download</a>
         </div>
     </div>
 </nav>
@@ -715,15 +809,19 @@
     <div class="hero-inner">
         <!-- LEFT — headline + CTA -->
         <div class="hero-left">
-            <div class="hero-badge">macOS Menu Bar App</div>
+            <div class="hero-badge">macOS & Windows App</div>
             <h1>The Leaderboard that measures your <span class="green">AI-Nativeness</span></h1>
             <p class="hero-sub">
-                Screen Time, but for AI coding tools. VibeCheck tracks your usage of Claude Code, Cursor & more — and ranks you globally.
+                Screen Time, but for AI coding tools. FlexTheGrind tracks your usage of Claude Code, Cursor & more — and ranks you globally.
             </p>
-            <div class="hero-actions">
+            <div class="hero-actions" id="download">
                 <a href="https://github.com/harshsaver/vibecheck-landing/releases/download/v0.1.0/VibeCheck_0.1.0_aarch64.dmg" class="btn-primary">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                     Download for macOS
+                </a>
+                <a href="https://github.com/harshsaver/vibecheck-landing/releases/download/v0.1.0/FlexTheGrind_0.1.0_x64-setup.exe" class="btn-primary" style="background: var(--secondary);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download for Windows
                 </a>
                 <a href="#how-it-works" class="btn-secondary">How It Works</a>
             </div>
@@ -752,53 +850,71 @@
                 <div class="hero-lb-row" data-delay="0">
                     <div class="hero-lb-rank gold">1</div>
                     <div class="hero-lb-info">
-                        <div class="hero-lb-name">vibe_lord_99</div>
+                        <div class="hero-lb-name-row">
+                            <img src="assets/badges/king.png" alt="Legend" class="hero-lb-badge">
+                            <div class="hero-lb-name">grind_lord_99</div>
+                        </div>
                         <div class="hero-lb-meta">42-day streak &middot; Claude Code, Cursor</div>
                     </div>
-                    <div class="hero-lb-score" data-target="987">0</div>
+                    <div class="hero-lb-score" data-target="2987">0</div>
                 </div>
                 <div class="hero-lb-row" data-delay="80">
                     <div class="hero-lb-rank silver">2</div>
                     <div class="hero-lb-info">
-                        <div class="hero-lb-name">cursor_queen</div>
+                        <div class="hero-lb-name-row">
+                            <img src="assets/badges/titan.png" alt="Titan" class="hero-lb-badge">
+                            <div class="hero-lb-name">cursor_queen</div>
+                        </div>
                         <div class="hero-lb-meta">38-day streak &middot; Cursor</div>
                     </div>
-                    <div class="hero-lb-score" data-target="945">0</div>
+                    <div class="hero-lb-score" data-target="2450">0</div>
                 </div>
                 <div class="hero-lb-row" data-delay="160">
                     <div class="hero-lb-rank bronze">3</div>
                     <div class="hero-lb-info">
-                        <div class="hero-lb-name">claude_maxi</div>
+                        <div class="hero-lb-name-row">
+                            <img src="assets/badges/diamond.png" alt="Diamond" class="hero-lb-badge">
+                            <div class="hero-lb-name">claude_maxi</div>
+                        </div>
                         <div class="hero-lb-meta">31-day streak &middot; Claude Code</div>
                     </div>
-                    <div class="hero-lb-score" data-target="912">0</div>
+                    <div class="hero-lb-score" data-target="1812">0</div>
                 </div>
                 <div class="hero-lb-row" data-delay="240">
                     <div class="hero-lb-rank">4</div>
                     <div class="hero-lb-info">
-                        <div class="hero-lb-name">token_burner</div>
+                        <div class="hero-lb-name-row">
+                            <img src="assets/badges/gold.png" alt="Gold" class="hero-lb-badge">
+                            <div class="hero-lb-name">token_burner</div>
+                        </div>
                         <div class="hero-lb-meta">27-day streak &middot; Claude Code, Cursor</div>
                     </div>
-                    <div class="hero-lb-score" data-target="878">0</div>
+                    <div class="hero-lb-score" data-target="1278">0</div>
                 </div>
                 <div class="hero-lb-row" data-delay="320">
                     <div class="hero-lb-rank">5</div>
                     <div class="hero-lb-info">
-                        <div class="hero-lb-name">ai_shipper</div>
+                        <div class="hero-lb-name-row">
+                            <img src="assets/badges/silver.png" alt="Silver" class="hero-lb-badge">
+                            <div class="hero-lb-name">ai_shipper</div>
+                        </div>
                         <div class="hero-lb-meta">19-day streak &middot; Claude Desktop</div>
                     </div>
-                    <div class="hero-lb-score" data-target="841">0</div>
+                    <div class="hero-lb-score" data-target="641">0</div>
                 </div>
                 <div class="hero-lb-row is-you" data-delay="450">
                     <div class="hero-lb-rank">?</div>
                     <div class="hero-lb-info">
-                        <div class="hero-lb-name">your_name_here</div>
+                        <div class="hero-lb-name-row">
+                            <img src="assets/badges/bronze.png" alt="Bronze" class="hero-lb-badge" style="opacity: 0.5;">
+                            <div class="hero-lb-name">your_name_here</div>
+                        </div>
                         <div class="hero-lb-meta">Download to find out</div>
                     </div>
                     <div class="hero-lb-score">???</div>
                 </div>
                 <div class="hero-lb-cta">
-                    <div class="hero-lb-cta-text"><span>Score 0-1000</span> &middot; Updates every 5 min &middot; Last 30 days</div>
+                    <div class="hero-lb-cta-text"><span>Bronze → Legend</span> &middot; Updates every 5 min &middot; Last 30 days</div>
                 </div>
             </div>
         </div>
@@ -815,12 +931,12 @@
             <div class="step animate-on-scroll">
                 <div class="step-number">01</div>
                 <div class="step-title">Install & Launch</div>
-                <div class="step-desc">Download the DMG, drag to Applications. VibeCheck appears in your menu bar — no dock icon, no clutter.</div>
+                <div class="step-desc">Download the installer for macOS or Windows. FlexTheGrind appears in your menu bar — no dock icon, no clutter.</div>
             </div>
             <div class="step animate-on-scroll">
                 <div class="step-number">02</div>
                 <div class="step-title">Auto-Track</div>
-                <div class="step-desc">VibeCheck detects your AI tools and starts tracking tokens, sessions, and streaks automatically.</div>
+                <div class="step-desc">FlexTheGrind detects your AI tools and starts tracking tokens, sessions, and streaks automatically.</div>
             </div>
             <div class="step animate-on-scroll">
                 <div class="step-number">03</div>
@@ -869,52 +985,65 @@
     </div>
 </section>
 
-<!-- SCORING -->
+<!-- LEAGUE SYSTEM -->
 <section class="scoring-section diamond-bg" id="scoring">
     <div class="container">
-        <div class="section-label" style="color: #fff;">AI Nativeness Score</div>
-        <div class="section-title" style="color: #fff;">7 Components. 1000 Points.</div>
-        <p class="section-sub" style="color: rgba(255,255,255,0.7);">Your score is computed from the last 30 days of AI coding activity across all supported tools.</p>
-        <div class="scoring-table">
-            <div class="scoring-row scoring-row-header">
-                <div class="scoring-component">Component</div>
-                <div class="scoring-points" style="color: rgba(255,255,255,0.5);">Points</div>
-                <div class="scoring-desc">What It Measures</div>
+        <div class="section-label" style="color: #fff;">League System</div>
+        <div class="section-title" style="color: #fff;">Climb the Ranks. Earn Your Badge.</div>
+        <p class="section-sub" style="color: rgba(255,255,255,0.7);">Your score places you into a league. Grind harder, climb higher.</p>
+        <div class="league-table">
+            <div class="league-row league-row-header">
+                <div class="league-name">League</div>
+                <div class="league-score" style="color: rgba(255,255,255,0.5);">Score</div>
+                <div class="league-badge-col" style="font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 11px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.15em;">Badge</div>
             </div>
-            <div class="scoring-row animate-on-scroll">
-                <div class="scoring-component">Tokens</div>
-                <div class="scoring-points">250</div>
-                <div class="scoring-desc">Total tokens consumed (input + output)</div>
+            <div class="league-row animate-on-scroll">
+                <div class="league-name-cell">
+                    <img src="assets/badges/bronze.png" alt="Bronze" class="league-badge-img">
+                    <div class="league-name">Bronze</div>
+                </div>
+                <div class="league-score">0 – 399</div>
+                <div class="league-badge-col"><img src="assets/badges/bronze.png" alt="Bronze" class="league-badge-img"></div>
             </div>
-            <div class="scoring-row animate-on-scroll">
-                <div class="scoring-component">Streak</div>
-                <div class="scoring-points">200</div>
-                <div class="scoring-desc">Consecutive days of AI usage</div>
+            <div class="league-row animate-on-scroll">
+                <div class="league-name-cell">
+                    <img src="assets/badges/silver.png" alt="Silver" class="league-badge-img">
+                    <div class="league-name">Silver</div>
+                </div>
+                <div class="league-score">400 – 799</div>
+                <div class="league-badge-col"><img src="assets/badges/silver.png" alt="Silver" class="league-badge-img"></div>
             </div>
-            <div class="scoring-row animate-on-scroll">
-                <div class="scoring-component">Sessions</div>
-                <div class="scoring-points">150</div>
-                <div class="scoring-desc">Number of coding sessions</div>
+            <div class="league-row animate-on-scroll">
+                <div class="league-name-cell">
+                    <img src="assets/badges/gold.png" alt="Gold" class="league-badge-img">
+                    <div class="league-name">Gold</div>
+                </div>
+                <div class="league-score">800 – 1399</div>
+                <div class="league-badge-col"><img src="assets/badges/gold.png" alt="Gold" class="league-badge-img"></div>
             </div>
-            <div class="scoring-row animate-on-scroll">
-                <div class="scoring-component">Hours</div>
-                <div class="scoring-points">100</div>
-                <div class="scoring-desc">Active hours spent with AI tools</div>
+            <div class="league-row animate-on-scroll">
+                <div class="league-name-cell">
+                    <img src="assets/badges/diamond.png" alt="Diamond" class="league-badge-img">
+                    <div class="league-name">Diamond</div>
+                </div>
+                <div class="league-score">1400 – 1999</div>
+                <div class="league-badge-col"><img src="assets/badges/diamond.png" alt="Diamond" class="league-badge-img"></div>
             </div>
-            <div class="scoring-row animate-on-scroll">
-                <div class="scoring-component">Diversity</div>
-                <div class="scoring-points">100</div>
-                <div class="scoring-desc">Number of different AI tools used</div>
+            <div class="league-row animate-on-scroll">
+                <div class="league-name-cell">
+                    <img src="assets/badges/titan.png" alt="Titan" class="league-badge-img">
+                    <div class="league-name">Titan</div>
+                </div>
+                <div class="league-score">2000 – 2799</div>
+                <div class="league-badge-col"><img src="assets/badges/titan.png" alt="Titan" class="league-badge-img"></div>
             </div>
-            <div class="scoring-row animate-on-scroll">
-                <div class="scoring-component">Power Usage</div>
-                <div class="scoring-points">100</div>
-                <div class="scoring-desc">Advanced features: MCP tools, skills, agents</div>
-            </div>
-            <div class="scoring-row animate-on-scroll">
-                <div class="scoring-component">Recency</div>
-                <div class="scoring-points">100</div>
-                <div class="scoring-desc">How recently you've been active</div>
+            <div class="league-row animate-on-scroll">
+                <div class="league-name-cell">
+                    <img src="assets/badges/king.png" alt="Legend" class="league-badge-img">
+                    <div class="league-name">Legend</div>
+                </div>
+                <div class="league-score">2800+</div>
+                <div class="league-badge-col"><img src="assets/badges/king.png" alt="Legend" class="league-badge-img"></div>
             </div>
         </div>
     </div>
@@ -950,11 +1079,6 @@
                 <div class="tool-desc">Process monitoring plus log parsing for session and usage data.</div>
                 <div class="tool-badge">Full Support</div>
             </div>
-        </div>
-        <div style="text-align: center; margin-top: 32px;">
-            <p style="font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 14px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.15em;">
-                Windsurf, GitHub Copilot & more coming soon
-            </p>
         </div>
     </div>
 </section>
@@ -994,13 +1118,20 @@
 <!-- FOOTER -->
 <footer>
     <div class="footer-inner">
-        <div class="footer-logo">Vibe<span>Check</span></div>
+        <div class="footer-logo">FlexThe<span>Grind</span></div>
         <div class="footer-links">
             <a href="#">GitHub</a>
             <a href="#">Privacy</a>
             <a href="#">Contact</a>
         </div>
         <div class="footer-note">Designed by October.dev</div>
+    </div>
+    <div class="built-with-october">
+        <a href="https://october.dev" target="_blank" rel="noopener noreferrer">
+            <span>Built with</span>
+            <img src="https://october.dev/logo.png" alt="October">
+            <span class="bwo-name">October</span>
+        </a>
     </div>
 </footer>
 
@@ -1038,6 +1169,50 @@ function animateHeroLeaderboard() {
     });
 }
 animateHeroLeaderboard();
+
+// Leaderboard shuffle animation — randomly swap rows to simulate live activity
+function shuffleLeaderboard() {
+    const rows = Array.from(document.querySelectorAll('.hero-lb-row:not(.is-you)'));
+    if (rows.length < 2) return;
+
+    // Pick two random adjacent rows to swap
+    const idx = Math.floor(Math.random() * (rows.length - 1));
+    const rowA = rows[idx];
+    const rowB = rows[idx + 1];
+
+    // Swap scores
+    const scoreA = rowA.querySelector('.hero-lb-score');
+    const scoreB = rowB.querySelector('.hero-lb-score');
+    const tmpScore = scoreA.textContent;
+    scoreA.textContent = scoreB.textContent;
+    scoreB.textContent = tmpScore;
+    if (scoreA.dataset.target && scoreB.dataset.target) {
+        const tmpTarget = scoreA.dataset.target;
+        scoreA.dataset.target = scoreB.dataset.target;
+        scoreB.dataset.target = tmpTarget;
+    }
+
+    // Swap names, meta, and badge
+    const infoA = rowA.querySelector('.hero-lb-info');
+    const infoB = rowB.querySelector('.hero-lb-info');
+    const tmpHTML = infoA.innerHTML;
+    infoA.innerHTML = infoB.innerHTML;
+    infoB.innerHTML = tmpHTML;
+
+    // Add animation classes
+    rowA.classList.add('shuffle-up', 'shuffle-glow');
+    rowB.classList.add('shuffle-down', 'shuffle-glow');
+
+    setTimeout(() => {
+        rowA.classList.remove('shuffle-up', 'shuffle-glow');
+        rowB.classList.remove('shuffle-down', 'shuffle-glow');
+    }, 800);
+}
+
+// Start shuffling after initial animation completes
+setTimeout(() => {
+    setInterval(shuffleLeaderboard, 3000);
+}, 2500);
 
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
